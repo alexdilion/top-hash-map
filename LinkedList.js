@@ -11,6 +11,7 @@ export class Node {
 export class LinkedList {
     constructor() {
         this.head = null;
+        this.length = 0;
     }
 
     insert(key, value) {
@@ -22,6 +23,7 @@ export class LinkedList {
             const node = new Node(key, value);
             node.next = this.head;
             this.head = node;
+            this.length += 1;
         }
     }
 
@@ -40,6 +42,7 @@ export class LinkedList {
         if (!this.head) return;
         if (this.head.key === key) {
             this.head = this.head.next;
+            this.length -= 1;
             return;
         }
 
@@ -48,7 +51,10 @@ export class LinkedList {
             node = node.next;
         }
 
-        node.next = node.next ? node.next.next : null;
+        if (!node.next) return;
+
+        node = node.next.next;
+        this.length -= 1;
     }
 
     prettyPrint() {
