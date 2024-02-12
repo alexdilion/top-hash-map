@@ -17,4 +17,16 @@ export class LinkedList {
         node.next = this.head;
         this.head = node;
     }
+
+    prettyPrint() {
+        let node = this.head;
+        let output = "";
+
+        while (node.next) {
+            output += `${node.value} -> `;
+            node = node.next;
+        }
+
+        console.log(`${output}${node.value}`);
+    }
 }
