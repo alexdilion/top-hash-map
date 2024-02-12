@@ -53,12 +53,15 @@ export class LinkedList {
 
         if (!node.next) return;
 
-        node = node.next.next;
+        node.next = node.next.next;
         this.length -= 1;
     }
 
     prettyPrint() {
-        if (!this.head) return;
+        if (!this.head) {
+            console.log("No entries in list");
+            return;
+        }
 
         let node = this.head;
         let output = "";
