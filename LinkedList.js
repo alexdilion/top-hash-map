@@ -1,32 +1,51 @@
 #!/usr/bin/env node
 
 export class Node {
-    constructor(value = null) {
+    constructor(key, value) {
+        this.key = key;
         this.value = value;
         this.next = null;
     }
 }
 
 export class LinkedList {
-    constructor(head = null) {
-        this.head = head;
-        this.tail = null;
+    constructor() {
+        this.head = null;
     }
 
-    insert(node) {
-        node.next = this.head;
-        this.head = node;
+    insert(key, value) {
+        const existingNode = this.find(key);
+
+        if (existingNode) {
+            existingNode.value = value;
+        } else {
+            const node = new Node(key, value);
+            node.next = this.head;
+            this.head = node;
+        }
     }
 
-    prettyPrint() {
+    find(key) {
+        if (!this.head) return null;
+
         let node = this.head;
-        let output = "";
-
-        while (node.next) {
-            output += `${node.value} -> `;
+        while (node && node.key !== key) {
             node = node.next;
         }
 
-        console.log(`${output}${node.value}`);
+        return node?.key === key ? node : null;
+    }
+
+    prettyPrint() {
+        if (!this.head) return;
+
+        let node = this.head;
+        let output = "";
+        while (node.next) {
+            output += `(${node.key}: ${node.value}) -> `;
+            node = node.next;
+        }
+
+        console.log(`${output}(${node.key}: ${node.value})`);
     }
 }
