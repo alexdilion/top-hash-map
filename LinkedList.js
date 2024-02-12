@@ -36,6 +36,21 @@ export class LinkedList {
         return node?.key === key ? node : null;
     }
 
+    delete(key) {
+        if (!this.head) return;
+        if (this.head.key === key) {
+            this.head = this.head.next;
+            return;
+        }
+
+        let node = this.head;
+        while (node.next?.key !== key) {
+            node = node.next;
+        }
+
+        node.next = node.next ? node.next.next : null;
+    }
+
     prettyPrint() {
         if (!this.head) return;
 
