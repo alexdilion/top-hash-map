@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
-export class Node {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
-        this.next = null;
-    }
-}
+const Node = (key, value) => {
+    return { key, value, next: null };
+};
 
-export class LinkedList {
+export default class LinkedList {
     constructor() {
         this.head = null;
         this.length = 0;
@@ -20,7 +16,7 @@ export class LinkedList {
         if (existingNode) {
             existingNode.value = value;
         } else {
-            const node = new Node(key, value);
+            const node = Node(key, value);
             node.next = this.head;
             this.head = node;
             this.length += 1;
