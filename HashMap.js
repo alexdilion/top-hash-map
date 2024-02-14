@@ -12,13 +12,20 @@ export default class HashMap {
         }
     }
 
-    #hash(key) {
+    // Polynomial rolling hash function
+    // https://cp-algorithms.com/string/string-hashing.html
+    hash(key) {
+        const PRIME = 131;
+        const MOD_NUMBER = 28657;
+
+        let primePower = 1;
         let hashCode = 0;
-        const primeNumber = 31;
         for (let i = 0; i < key.length; i++) {
-            hashCode = primeNumber * hashCode + key.charCodeAt(i);
+            const charCode = key[i].charCodeAt();
+            hashCode = (hashCode + charCode * primePower) % MOD_NUMBER;
+            primePower = (primePower * PRIME) % MOD_NUMBER;
         }
 
-        return hashCode;
+        return hashCode % this.capacity;
     }
 }
