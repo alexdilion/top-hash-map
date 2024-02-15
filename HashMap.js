@@ -51,4 +51,8 @@ export default class HashMap {
 
         return this.buckets[bucketIndex].remove(key); // true if key found and removed
     }
+
+    length() {
+        return this.buckets.reduce((total, bucket) => total + bucket.length, 0);
+    }
 }
