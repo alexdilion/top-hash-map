@@ -22,22 +22,25 @@ export default class HashMap {
         return hashCode;
     }
 
+    #getBucketIndex(key) {
+        return this.#hash(key) % this.capacity;
+    }
+
     // TODO: Expand map capacity when load factor is reached.
     set(key, value) {
-        const bucketIndex = this.#hash(key) % this.capacity;
-
+        const bucketIndex = this.#getBucketIndex(key);
         this.buckets[bucketIndex].insert(key, value);
     }
 
     get(key) {
-        const bucketIndex = this.#hash(key) % this.capacity;
+        const bucketIndex = this.#getBucketIndex(key);
         const node = this.buckets[bucketIndex].find(key);
 
         return node?.value ?? null;
     }
 
     has(key) {
-        const bucketIndex = this.#hash(key) % this.capacity;
+        const bucketIndex = this.#getBucketIndex(key);
         const node = this.buckets[bucketIndex].find(key);
 
         return node !== null;
