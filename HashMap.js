@@ -68,4 +68,11 @@ export default class HashMap {
             bucket.clear();
         });
     }
+
+    getKeys() {
+        const keys = [];
+        this.buckets.map((bucket) => keys.push(...bucket.getKeys()));
+
+        return keys;
+    }
 }
