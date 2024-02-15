@@ -29,4 +29,12 @@ export default class HashMap {
 
         this.buckets[bucketIndex].insert(key, value);
     }
+
+    get(key) {
+        const keyHash = this.#hash(key);
+        const bucketIndex = keyHash % this.capacity;
+        const node = this.buckets[bucketIndex].find(key);
+
+        return node?.value ?? null;
+    }
 }
