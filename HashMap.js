@@ -69,10 +69,17 @@ export default class HashMap {
         });
     }
 
-    getKeys() {
+    get keys() {
         const keys = [];
-        this.buckets.map((bucket) => keys.push(...bucket.getKeys()));
+        this.buckets.map((bucket) => keys.push(...bucket.keys));
 
         return keys;
+    }
+
+    get values() {
+        const values = [];
+        this.buckets.map((bucket) => values.push(...bucket.values));
+
+        return values;
     }
 }

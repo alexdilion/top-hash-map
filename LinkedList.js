@@ -59,7 +59,7 @@ export default class LinkedList {
         this.length = 0;
     }
 
-    getKeys() {
+    get keys() {
         const keys = [];
 
         let node = this.head;
@@ -69,6 +69,18 @@ export default class LinkedList {
         }
 
         return keys;
+    }
+
+    get values() {
+        const values = [];
+
+        let node = this.head;
+        while (node) {
+            values.push(node.value);
+            node = node.next;
+        }
+
+        return values;
     }
 
     prettyPrint() {
