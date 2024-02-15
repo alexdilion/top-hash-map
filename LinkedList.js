@@ -83,6 +83,22 @@ export default class LinkedList {
         return values;
     }
 
+    get length() {
+        return this.length;
+    }
+
+    get entries() {
+        const entries = [];
+
+        let node = this.head;
+        while (node) {
+            entries.push([node.key, node.value]);
+            node = node.next;
+        }
+
+        return entries;
+    }
+
     prettyPrint() {
         if (!this.head) {
             console.log("No entries in list");
