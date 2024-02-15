@@ -5,6 +5,8 @@ import LinkedList from "./LinkedList.js";
 export default class HashMap {
     #buckets = [];
     #capacity = 16;
+    #maxLoadFactor = 0.7;
+    #length = 0;
 
     constructor(capacity = 16) {
         this.#capacity = capacity;
@@ -38,7 +40,11 @@ export default class HashMap {
     // TODO: Expand map capacity when load factor is reached.
     set(key, value) {
         const bucketIndex = this.#getBucketIndex(key);
-        this.#buckets[bucketIndex].insert(key, value);
+        const keyExists = this.#buckets[bucketIndex].insert(key, value);
+
+        if (!keyExists) {
+            this.#length += 1;
+        }
     }
 
     get(key) {
@@ -57,16 +63,22 @@ export default class HashMap {
 
     remove(key) {
         const bucketIndex = this.#getBucketIndex(key);
+        const entryRemoved = this.#buckets[bucketIndex].remove(key);
 
-        return this.#buckets[bucketIndex].remove(key); // true if key found and removed
+        if (entryRemoved) {
+            this.#length -= 1;
+        }
+
+        return entryRemoved;
     }
 
     clear() {
         this.#buckets.forEach((bucket) => bucket.clear());
+        this.#length = 0;
     }
 
     get length() {
-        return this.#buckets.reduce((total, bucket) => total + bucket.length, 0);
+        return this.#length;
     }
 
     get keys() {

@@ -19,6 +19,8 @@ export default class LinkedList {
             this.#head = node;
             this.#length += 1;
         }
+
+        return existingNode;
     }
 
     find(key) {
