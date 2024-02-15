@@ -54,6 +54,11 @@ export default class LinkedList {
         return true;
     }
 
+    clear() {
+        this.head = null;
+        this.length = 0;
+    }
+
     prettyPrint() {
         if (!this.head) {
             console.log("No entries in list");

@@ -14,7 +14,7 @@ export default class HashMap {
 
     // Polynomial rolling hash function
     // https://cp-algorithms.com/string/string-hashing.html
-    hash(key) {
+    #hash(key) {
         const PRIME = 131;
         const MOD_NUMBER = 28657;
 
@@ -26,7 +26,7 @@ export default class HashMap {
             primePower = (primePower * PRIME) % MOD_NUMBER;
         }
 
-        return hashCode % this.capacity;
+        return hashCode;
     }
 
     #getBucketIndex(key) {
@@ -61,5 +61,11 @@ export default class HashMap {
 
     length() {
         return this.buckets.reduce((total, bucket) => total + bucket.length, 0);
+    }
+
+    clear() {
+        this.buckets.forEach((bucket) => {
+            bucket.clear();
+        });
     }
 }
