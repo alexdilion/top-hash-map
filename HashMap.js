@@ -45,4 +45,10 @@ export default class HashMap {
 
         return node !== null;
     }
+
+    remove(key) {
+        const bucketIndex = this.#getBucketIndex(key);
+
+        return this.buckets[bucketIndex].remove(key); // true if key found and removed
+    }
 }
