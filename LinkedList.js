@@ -34,12 +34,12 @@ export default class LinkedList {
         return node?.key === key ? node : null;
     }
 
-    delete(key) {
-        if (!this.head) return;
+    remove(key) {
+        if (!this.head) return false;
         if (this.head.key === key) {
             this.head = this.head.next;
             this.length -= 1;
-            return;
+            return true;
         }
 
         let node = this.head;
@@ -47,10 +47,11 @@ export default class LinkedList {
             node = node.next;
         }
 
-        if (!node.next) return;
+        if (!node.next) return false;
 
         node.next = node.next.next;
         this.length -= 1;
+        return true;
     }
 
     prettyPrint() {

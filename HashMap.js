@@ -28,4 +28,38 @@ export default class HashMap {
 
         return hashCode % this.capacity;
     }
+
+    #getBucketIndex(key) {
+        return this.#hash(key) % this.capacity;
+    }
+
+    // TODO: Expand map capacity when load factor is reached.
+    set(key, value) {
+        const bucketIndex = this.#getBucketIndex(key);
+        this.buckets[bucketIndex].insert(key, value);
+    }
+
+    get(key) {
+        const bucketIndex = this.#getBucketIndex(key);
+        const node = this.buckets[bucketIndex].find(key);
+
+        return node?.value ?? null;
+    }
+
+    has(key) {
+        const bucketIndex = this.#getBucketIndex(key);
+        const node = this.buckets[bucketIndex].find(key);
+
+        return node !== null;
+    }
+
+    remove(key) {
+        const bucketIndex = this.#getBucketIndex(key);
+
+        return this.buckets[bucketIndex].remove(key); // true if key found and removed
+    }
+
+    length() {
+        return this.buckets.reduce((total, bucket) => total + bucket.length, 0);
+    }
 }
