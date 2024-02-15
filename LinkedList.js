@@ -5,10 +5,8 @@ const Node = (key, value) => {
 };
 
 export default class LinkedList {
-    constructor() {
-        this.head = null;
-        this.length = 0;
-    }
+    #head = null;
+    #length = 0;
 
     insert(key, value) {
         const existingNode = this.find(key);
@@ -17,16 +15,16 @@ export default class LinkedList {
             existingNode.value = value;
         } else {
             const node = Node(key, value);
-            node.next = this.head;
-            this.head = node;
-            this.length += 1;
+            node.next = this.#head;
+            this.#head = node;
+            this.#length += 1;
         }
     }
 
     find(key) {
-        if (!this.head) return null;
+        if (!this.#head) return null;
 
-        let node = this.head;
+        let node = this.#head;
         while (node && node.key !== key) {
             node = node.next;
         }
@@ -35,14 +33,14 @@ export default class LinkedList {
     }
 
     remove(key) {
-        if (!this.head) return false;
-        if (this.head.key === key) {
-            this.head = this.head.next;
-            this.length -= 1;
+        if (!this.#head) return false;
+        if (this.#head.key === key) {
+            this.#head = this.#head.next;
+            this.#length -= 1;
             return true;
         }
 
-        let node = this.head;
+        let node = this.#head;
         while (node.next?.key !== key) {
             node = node.next;
         }
@@ -50,19 +48,19 @@ export default class LinkedList {
         if (!node.next) return false;
 
         node.next = node.next.next;
-        this.length -= 1;
+        this.#length -= 1;
         return true;
     }
 
     clear() {
-        this.head = null;
-        this.length = 0;
+        this.#head = null;
+        this.#length = 0;
     }
 
     get keys() {
         const keys = [];
 
-        let node = this.head;
+        let node = this.#head;
         while (node) {
             keys.push(node.key);
             node = node.next;
@@ -74,7 +72,7 @@ export default class LinkedList {
     get values() {
         const values = [];
 
-        let node = this.head;
+        let node = this.#head;
         while (node) {
             values.push(node.value);
             node = node.next;
@@ -84,13 +82,13 @@ export default class LinkedList {
     }
 
     get length() {
-        return this.length;
+        return this.#length;
     }
 
     get entries() {
         const entries = [];
 
-        let node = this.head;
+        let node = this.#head;
         while (node) {
             entries.push([node.key, node.value]);
             node = node.next;
@@ -100,12 +98,12 @@ export default class LinkedList {
     }
 
     prettyPrint() {
-        if (!this.head) {
+        if (!this.#head) {
             console.log("No entries in list");
             return;
         }
 
-        let node = this.head;
+        let node = this.#head;
         let output = "";
         while (node.next) {
             output += `(${node.key}: ${node.value}) -> `;
