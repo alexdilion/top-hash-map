@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import LinkedList from "./LinkedList.js";
+import MapBucket from "./MapBucket.js";
 
 export default class HashMap {
     #buckets = [];
@@ -13,7 +13,7 @@ export default class HashMap {
         this.#capacity = capacity;
 
         for (let i = 0; i < capacity; i++) {
-            this.#buckets.push(new LinkedList());
+            this.#buckets.push(new MapBucket());
         }
     }
 
@@ -43,7 +43,7 @@ export default class HashMap {
         const entries = this.entries;
 
         for (let i = 0; i < this.#capacity; i++) {
-            newMap.push(new LinkedList());
+            newMap.push(new MapBucket());
         }
 
         this.#buckets = newMap;

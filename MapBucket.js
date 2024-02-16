@@ -4,7 +4,7 @@ const Node = (key, value) => {
     return { key, value, next: null };
 };
 
-export default class LinkedList {
+export default class MapBucket {
     #head = null;
     #length = 0;
 
