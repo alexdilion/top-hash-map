@@ -55,19 +55,14 @@ export default class HashMap {
         });
     }
 
-    optimiseSize() {
+    optimizeSize() {
         const loadFactor = this.#length / this.#capacity;
 
         if (loadFactor >= this.#maxLoadFactor) {
             this.#capacity *= 2;
-
             this.rehashEntries();
         } else if (loadFactor < this.#minLoadFactor && this.#capacity > 16) {
-            // this is to account for when we clear the map
-            while (loadFactor < this.#minLoadFactor && this.#capacity > 16) {
-                this.#capacity /= 2;
-            }
-
+            this.#capacity /= 2;
             this.rehashEntries();
         }
     }
@@ -79,7 +74,7 @@ export default class HashMap {
 
         if (!keyExists) {
             this.#length += 1;
-            this.optimiseSize();
+            this.optimizeSize();
         }
     }
 
@@ -103,7 +98,7 @@ export default class HashMap {
 
         if (entryRemoved) {
             this.#length -= 1;
-            this.optimiseSize();
+            this.optimizeSize();
         }
 
         return entryRemoved;
