@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import MapBucket from "./MapBucket.js";
+import SetBucket from "./SetBucket.js";
 
-export default class HashMap {
+export default class HashSet {
     #buckets = [];
     #capacity = 16;
     #maxLoadFactor = 0.7;
@@ -13,7 +13,7 @@ export default class HashMap {
         this.#capacity = capacity;
 
         for (let i = 0; i < capacity; i++) {
-            this.#buckets.push(new MapBucket());
+            this.#buckets.push(new SetBucket());
         }
     }
 
@@ -38,20 +38,19 @@ export default class HashMap {
         return this.#hash(key) % this.#capacity;
     }
 
-    #rehashEntries() {
+    #rehashKeys() {
         const newMap = [];
-        const entries = this.entries;
+        const keys = this.keys;
 
         for (let i = 0; i < this.#capacity; i++) {
-            newMap.push(new MapBucket());
+            newMap.push(new SetBucket());
         }
 
         this.#buckets = newMap;
 
-        entries.forEach((entry) => {
-            const [key, value] = entry;
+        keys.forEach((key) => {
             const bucketIndex = this.#getBucketIndex(key);
-            this.#buckets[bucketIndex].insert(key, value);
+            this.#buckets[bucketIndex].insert(key);
         });
     }
 
@@ -60,16 +59,16 @@ export default class HashMap {
 
         if (loadFactor >= this.#maxLoadFactor) {
             this.#capacity *= 2;
-            this.#rehashEntries();
+            this.#rehashKeys();
         } else if (loadFactor < this.#minLoadFactor && this.#capacity > 16) {
             this.#capacity /= 2;
-            this.#rehashEntries();
+            this.#rehashKeys();
         }
     }
 
-    set(key, value) {
+    set(key) {
         const bucketIndex = this.#getBucketIndex(key);
-        const keyExists = this.#buckets[bucketIndex].insert(key, value);
+        const keyExists = this.#buckets[bucketIndex].insert(key);
 
         if (!keyExists) {
             this.#length += 1;
@@ -118,29 +117,15 @@ export default class HashMap {
         return this.#length;
     }
 
+    get buckets() {
+        return this.#buckets;
+    }
+
     get keys() {
         const keys = [];
         this.#buckets.map((bucket) => keys.push(...bucket.keys));
 
         return keys;
-    }
-
-    get values() {
-        const values = [];
-        this.#buckets.map((bucket) => values.push(...bucket.values));
-
-        return values;
-    }
-
-    get buckets() {
-        return this.#buckets;
-    }
-
-    get entries() {
-        const entries = [];
-        this.#buckets.map((bucket) => entries.push(...bucket.entries));
-
-        return entries;
     }
 
     get capacity() {

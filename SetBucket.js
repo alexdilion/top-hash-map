@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 
-const Node = (key, value) => {
-    return { key, value, next: null };
+const Node = (key) => {
+    return { key, next: null };
 };
 
-export default class MapBucket {
+export default class SetBucket {
     #head = null;
     #length = 0;
 
-    insert(key, value) {
+    insert(key) {
         const existingNode = this.find(key);
 
-        if (existingNode) {
-            existingNode.value = value;
-        } else {
-            const node = Node(key, value);
+        if (!existingNode) {
+            const node = Node(key);
             node.next = this.#head;
             this.#head = node;
             this.#length += 1;
@@ -71,47 +69,23 @@ export default class MapBucket {
         return keys;
     }
 
-    get values() {
-        const values = [];
-
-        let node = this.#head;
-        while (node) {
-            values.push(node.value);
-            node = node.next;
-        }
-
-        return values;
-    }
-
     get length() {
         return this.#length;
     }
 
-    get entries() {
-        const entries = [];
-
-        let node = this.#head;
-        while (node) {
-            entries.push([node.key, node.value]);
-            node = node.next;
-        }
-
-        return entries;
-    }
-
     prettyPrint() {
         if (!this.#head) {
-            console.log("No entries in this bucket");
+            console.log("No keys in this bucket");
             return;
         }
 
         let node = this.#head;
         let output = "";
         while (node.next) {
-            output += `(${node.key}: ${node.value}) -> `;
+            output += `(${node.key}) -> `;
             node = node.next;
         }
 
-        console.log(`${output}(${node.key}: ${node.value})`);
+        console.log(`${output}(${node.key})`);
     }
 }
