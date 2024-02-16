@@ -38,7 +38,7 @@ export default class HashMap {
         return this.#hash(key) % this.#capacity;
     }
 
-    rehashEntries() {
+    #rehashEntries() {
         const newMap = [];
         const entries = this.entries;
 
@@ -55,15 +55,15 @@ export default class HashMap {
         });
     }
 
-    optimizeSize() {
+    #optimizeSize() {
         const loadFactor = this.#length / this.#capacity;
 
         if (loadFactor >= this.#maxLoadFactor) {
             this.#capacity *= 2;
-            this.rehashEntries();
+            this.#rehashEntries();
         } else if (loadFactor < this.#minLoadFactor && this.#capacity > 16) {
             this.#capacity /= 2;
-            this.rehashEntries();
+            this.#rehashEntries();
         }
     }
 
@@ -74,7 +74,7 @@ export default class HashMap {
 
         if (!keyExists) {
             this.#length += 1;
-            this.optimizeSize();
+            this.#optimizeSize();
         }
     }
 
@@ -98,7 +98,7 @@ export default class HashMap {
 
         if (entryRemoved) {
             this.#length -= 1;
-            this.optimizeSize();
+            this.#optimizeSize();
         }
 
         return entryRemoved;
@@ -109,6 +109,10 @@ export default class HashMap {
         this.#buckets.forEach((bucket) => bucket.clear());
         this.#length = 0;
         this.#capacity = 16;
+    }
+
+    prettyPrint() {
+        this.#buckets.map((bucket) => bucket.prettyPrint());
     }
 
     get length() {
